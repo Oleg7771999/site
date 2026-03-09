@@ -3,98 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dark Secrets Shop</title>
+  <title>STACHET</title>
+
   <style>
     body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #0a0a1a, #1a1a2e, #0f0f23);
-      color: #fff;
       margin: 0;
       padding: 0;
-    }
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
-    .header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    .logo-img {
-      max-width: 300px;
-      width: 100%;
-      height: auto;
-      margin-bottom: 20px;
-      border-radius: 20px;
-    }
-    .section {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      padding: 25px;
-      margin-bottom: 20px;
-      backdrop-filter: blur(10px);
-    }
-    .section-title {
-      font-size: 22px;
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-    }
-    .icon {
-      font-size: 22px;
-    }
-    .link-button {
-      display: inline-block;
-      background: linear-gradient(135deg, #9333ea, #7c3aed);
+      font-family: 'Inter', sans-serif;
+      background: #000;
+      background: radial-gradient(circle at top, rgba(0, 255, 255, 0.08), transparent 60%),
+                  radial-gradient(circle at bottom, rgba(0, 180, 200, 0.06), transparent 70%),
+                  #000;
       color: #fff;
-      border: none;
-      border-radius: 16px;
-      padding: 14px 28px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 40px;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 600px;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      margin-bottom: 35px;
+      color: #7ffcff;
+      text-shadow: 0 0 12px #4ff2ff, 0 0 25px #3bd8e0;
+    }
+
+    .block {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 18px;
+      backdrop-filter: blur(8px);
+    }
+
+    .block-title {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #bffcff;
+      text-shadow: 0 0 8px #4ff2ff;
+    }
+
+    .btn {
+      display: inline-block;
+      width: 100%;
+      padding: 14px;
+      margin-top: 8px;
+      border-radius: 14px;
       text-align: center;
       text-decoration: none;
       font-weight: 600;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      margin: 8px 0;
+      color: #000;
+      background: linear-gradient(135deg, #7ffcff, #4ff2ff);
+      box-shadow: 0 0 12px rgba(79, 242, 255, 0.4);
+      transition: 0.25s;
     }
-    .link-button:hover {
-      transform: translateY(-2px);
-      background: linear-gradient(135deg, #a855f7, #9333ea);
-      box-shadow: 0 8px 25px rgba(147, 51, 234, 0.4);
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 18px rgba(79, 242, 255, 0.7);
     }
-    .status {
-      display: inline-block;
-      margin-left: 10px;
-      padding: 4px 10px;
-      border-radius: 10px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-    .online {
-      background: linear-gradient(135deg, #11998e, #38ef7d);
-    }
-    .offline {
-      background: linear-gradient(135deg, #ee0979, #ff6a00);
-    }
-    .description {
-      margin-top: 10px;
-      font-size: 14px;
-      opacity: 0.85;
-      line-height: 1.5;
-    }
+
     .footer {
       text-align: center;
-      margin-top: 40px;
-      opacity: 0.8;
+      margin-top: 25px;
+      opacity: 0.6;
       font-size: 14px;
     }
   </style>
 
-<script>
+  <script>
     async function loadLinks() {
       try {
         const res = await fetch('/api/links');
@@ -102,88 +89,55 @@
 
         document.querySelectorAll('[data-link]').forEach(el => {
           const key = el.getAttribute('data-link');
-          const status = el.nextElementSibling;
-          if (data[key]) {
-            el.href = data[key];
-            if (status && status.classList.contains('status')) {
-              status.textContent = 'Онлайн';
-              status.className = 'status online';
-            }
-          } else {
-            if (status && status.classList.contains('status')) {
-              status.textContent = 'Оффлайн';
-              status.className = 'status offline';
-            }
-          }
+          if (data[key]) el.href = data[key];
         });
-
-        updateTimestamp();
-      } catch (err) {
-        console.error('Не удалось загрузить ссылки:', err);
+      } catch (e) {
+        console.log("Ошибка загрузки ссылок");
       }
     }
 
-    function startAutoUpdate() {
-      setInterval(loadLinks, 30000);
-    }
-
-    function updateTimestamp() {
-      const now = new Date();
-      document.getElementById('last-update').textContent = now.toLocaleString('ru-RU');
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      loadLinks();
-      startAutoUpdate();
-    });
-</script>
+    window.onload = loadLinks;
+  </script>
 </head>
 
 <body>
   <div class="container">
-    <div class="header">
-      <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-NJ3ozrA3YyBsE8Hv2xrpw8McvGA6JL.png" class="logo-img">
+
+    <div class="title">STACHET</div>
+
+    <div class="block">
+      <div class="block-title">💰 Обменник</div>
+      <a class="btn" data-link="exchange">Перейти</a>
     </div>
 
-    <div class="section">
-      <div class="section-title"><div class="icon">👤</div>Админ в ТГ, работа, предзаказы, опт!</div>
-      <a class="link-button" data-link="main_contact" href="#">Перейти</a>
-      <span class="status offline">Оффлайн</span>
+    <div class="block">
+      <div class="block-title">👨‍💻 Оператор</div>
+      <a class="btn" data-link="operator">Перейти</a>
     </div>
 
-    <div class="section">
-      <div class="section-title"><div class="icon">🌐</div>Сайт автопродаж - ds46.to</div>
-      <a class="link-button" data-link="vpn_site" href="#">Перейти</a>
-      <span class="status offline">Оффлайн</span>
+    <div class="block">
+      <div class="block-title">🤖 Боты продаж</div>
+      <a class="btn" data-link="bot1">Бот #1</a>
+      <a class="btn" data-link="bot2">Бот #2</a>
     </div>
 
-    <div class="section">
-      <div class="section-title"><div class="icon">🔒</div>Торсайт</div>
-      <a class="link-button" data-link="tor_site" href="#">Перейти</a>
-      <span class="status offline">Оффлайн</span>
+    <div class="block">
+      <div class="block-title">💬 Чат</div>
+      <a class="btn" data-link="chat">Перейти</a>
     </div>
 
-    <div class="section">
-      <div class="section-title"><div class="icon">🤖</div>Бот#1</div>
-      <a class="link-button" data-link="bot1" href="#">Перейти</a>
-      <span class="status offline">Оффлайн</span>
+    <div class="block">
+      <div class="block-title">✅ Канал</div>
+      <a class="btn" data-link="channel">Перейти</a>
     </div>
 
-    <div class="section">
-      <div class="section-title"><div class="icon">🤖</div>Бот#2</div>
-      <a class="link-button" data-link="bot2" href="#">Перейти</a>
-      <span class="status offline">Оффлайн</span>
+    <div class="block">
+      <div class="block-title">🔗 Все контакты</div>
+      <a class="btn" data-link="contacts">Открыть</a>
     </div>
 
-    <div class="section">
-      <div class="section-title"><div class="icon">💬</div>Публичный чат</div>
-      <a class="link-button" data-link="public_chat" href="#">Перейти</a>
-      <span class="status offline">Оффлайн</span>
-    </div>
+    <div class="footer">STACHET © Все права защищены</div>
 
-    <div class="footer">
-      Последнее обновление: <span id="last-update">загрузка...</span>
-    </div>
   </div>
 </body>
 </html>
