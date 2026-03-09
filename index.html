@@ -27,12 +27,21 @@
       max-width: 600px;
     }
 
+    .logo {
+      width: 100%;
+      max-width: 420px;
+      display: block;
+      margin: 0 auto 25px auto;
+      border-radius: 14px;
+      box-shadow: 0 0 25px rgba(79, 242, 255, 0.25);
+    }
+
     .title {
       text-align: center;
       font-size: 42px;
       font-weight: 800;
       letter-spacing: 2px;
-      margin-bottom: 35px;
+      margin-bottom: 25px;
       color: #7ffcff;
       text-shadow: 0 0 12px #4ff2ff, 0 0 25px #3bd8e0;
     }
@@ -66,6 +75,7 @@
       background: linear-gradient(135deg, #7ffcff, #4ff2ff);
       box-shadow: 0 0 12px rgba(79, 242, 255, 0.4);
       transition: 0.25s;
+      cursor: pointer;
     }
 
     .btn:hover {
@@ -79,6 +89,14 @@
       opacity: 0.6;
       font-size: 14px;
     }
+
+    .redirect-msg {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #7ffcff;
+      display: none;
+    }
   </style>
 
   <script>
@@ -89,55 +107,83 @@
 
         document.querySelectorAll('[data-link]').forEach(el => {
           const key = el.getAttribute('data-link');
-          if (data[key]) el.href = data[key];
+          if (data[key]) {
+            el.dataset.url = data[key];
+          }
         });
       } catch (e) {
         console.log("Ошибка загрузки ссылок");
       }
     }
 
-    window.onload = loadLinks;
+    function setupRedirects() {
+      document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const url = btn.dataset.url;
+          if (!url) return;
+
+          const msg = document.getElementById('redirect-msg');
+          msg.style.display = 'block';
+          msg.textContent = "Переход через 3 секунды...";
+
+          setTimeout(() => {
+            window.location.href = url;
+          }, 3000);
+        });
+      });
+    }
+
+    window.onload = () => {
+      loadLinks();
+      setupRedirects();
+    };
   </script>
 </head>
 
 <body>
   <div class="container">
 
+    <img class="logo" src="stachet.jpg">
+
     <div class="title">STACHET</div>
 
     <div class="block">
       <div class="block-title">💰 Обменник</div>
-      <a class="btn" data-link="exchange">Перейти</a>
+      <div class="btn" data-link="exchange">Перейти</div>
     </div>
 
     <div class="block">
       <div class="block-title">👨‍💻 Оператор</div>
-      <a class="btn" data-link="operator">Перейти</a>
+      <div class="btn" data-link="operator">Перейти</div>
     </div>
 
     <div class="block">
       <div class="block-title">🤖 Боты продаж</div>
-      <a class="btn" data-link="bot1">Бот #1</a>
-      <a class="btn" data-link="bot2">Бот #2</a>
+      <div class="btn" data-link="bot1">Бот #1</div>
+      <div class="btn" data-link="bot2">Бот #2</div>
     </div>
 
     <div class="block">
       <div class="block-title">💬 Чат</div>
-      <a class="btn" data-link="chat">Перейти</a>
+      <div class="btn" data-link="chat">Перейти</div>
     </div>
 
     <div class="block">
       <div class="block-title">✅ Канал</div>
-      <a class="btn" data-link="channel">Перейти</a>
+      <div class="btn" data-link="channel">Перейти</div>
     </div>
 
     <div class="block">
       <div class="block-title">🔗 Все контакты</div>
-      <a class="btn" data-link="contacts">Открыть</a>
+      <div class="btn" data-link="contacts">Открыть</div>
     </div>
+
+    <div id="redirect-msg" class="redirect-msg"></div>
 
     <div class="footer">STACHET © Все права защищены</div>
 
   </div>
 </body>
 </html>
+
+
