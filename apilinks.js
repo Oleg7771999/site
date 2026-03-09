@@ -1,10 +1,12 @@
 export default function handler(req, res) {
   res.status(200).json({
-    main_contact: "https://t.me/your_admin",
-    vpn_site: "https://example.com",
-    tor_site: "http://exampletor.onion",
-    bot1: "https://t.me/bot1",
-    bot2: "https://t.me/bot2",
-    public_chat: "https://t.me/publicchat"
+    exchange: "https://t.me/speedcoins24bot",
+    operator: "https://t.me/admstachet",
+    bot1: "https://t.me/stacetbot",
+    bot2: "https://t.me/stachet24bot",
+    chat: "https://t.me/+TAABznuL11IzYmEy",
+    channel: "https://t.me/+ewhxh7eu5Vc3YTA0",
+    contacts: "https://telegra.ph/STACHET-CONTACTS-01-15"
   });
 }
+
