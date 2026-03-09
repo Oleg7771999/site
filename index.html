@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dark Secrets Shop</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0a0a1a, #1a1a2e, #0f0f23);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .logo-img {
+      max-width: 300px;
+      width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+      border-radius: 20px;
+    }
+    .section {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(10px);
+    }
+    .section-title {
+      font-size: 22px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+    }
+    .icon {
+      font-size: 22px;
+    }
+    .link-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #9333ea, #7c3aed);
+      color: #fff;
+      border: none;
+      border-radius: 16px;
+      padding: 14px 28px;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      margin: 8px 0;
+    }
+    .link-button:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, #a855f7, #9333ea);
+      box-shadow: 0 8px 25px rgba(147, 51, 234, 0.4);
+    }
+    .status {
+      display: inline-block;
+      margin-left: 10px;
+      padding: 4px 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .online {
+      background: linear-gradient(135deg, #11998e, #38ef7d);
+    }
+    .offline {
+      background: linear-gradient(135deg, #ee0979, #ff6a00);
+    }
+    .description {
+      margin-top: 10px;
+      font-size: 14px;
+      opacity: 0.85;
+      line-height: 1.5;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      opacity: 0.8;
+      font-size: 14px;
+    }
+  </style>
+
+<script>
+    async function loadLinks() {
+      try {
+        const res = await fetch('/api/links');
+        const data = await res.json();
+
+        document.querySelectorAll('[data-link]').forEach(el => {
+          const key = el.getAttribute('data-link');
+          const status = el.nextElementSibling;
+          if (data[key]) {
+            el.href = data[key];
+            if (status && status.classList.contains('status')) {
+              status.textContent = 'Онлайн';
+              status.className = 'status online';
+            }
+          } else {
+            if (status && status.classList.contains('status')) {
+              status.textContent = 'Оффлайн';
+              status.className = 'status offline';
+            }
+          }
+        });
+
+        updateTimestamp();
+      } catch (err) {
+        console.error('Не удалось загрузить ссылки:', err);
+      }
+    }
+
+    function startAutoUpdate() {
+      setInterval(loadLinks, 30000);
+    }
+
+    function updateTimestamp() {
+      const now = new Date();
+      document.getElementById('last-update').textContent = now.toLocaleString('ru-RU');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadLinks();
+      startAutoUpdate();
+    });
+</script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-NJ3ozrA3YyBsE8Hv2xrpw8McvGA6JL.png" class="logo-img">
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="icon">👤</div>Админ в ТГ, работа, предзаказы, опт!</div>
+      <a class="link-button" data-link="main_contact" href="#">Перейти</a>
+      <span class="status offline">Оффлайн</span>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="icon">🌐</div>Сайт автопродаж - ds46.to</div>
+      <a class="link-button" data-link="vpn_site" href="#">Перейти</a>
+      <span class="status offline">Оффлайн</span>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="icon">🔒</div>Торсайт</div>
+      <a class="link-button" data-link="tor_site" href="#">Перейти</a>
+      <span class="status offline">Оффлайн</span>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="icon">🤖</div>Бот#1</div>
+      <a class="link-button" data-link="bot1" href="#">Перейти</a>
+      <span class="status offline">Оффлайн</span>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="icon">🤖</div>Бот#2</div>
+      <a class="link-button" data-link="bot2" href="#">Перейти</a>
+      <span class="status offline">Оффлайн</span>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><div class="icon">💬</div>Публичный чат</div>
+      <a class="link-button" data-link="public_chat" href="#">Перейти</a>
+      <span class="status offline">Оффлайн</span>
+    </div>
+
+    <div class="footer">
+      Последнее обновление: <span id="last-update">загрузка...</span>
+    </div>
+  </div>
+</body>
+</html>
